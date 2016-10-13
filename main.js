@@ -16,7 +16,6 @@ app.use(function (req, res) {
 
 const hostname = 'localhost';
 const port = 3000;
-
 // const server = http.createServer(app);
 
 app.listen(port, hostname, () => {

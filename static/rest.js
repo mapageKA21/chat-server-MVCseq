@@ -2,7 +2,6 @@
 
 function postMsg (text) {
   $.post('/messages', {content: text}, function (data) {
-    console.log(data);
     appendMsgs([data]);
   });
 }
@@ -14,7 +13,7 @@ function appendMsgs (msgsArr) {
     lastMsgTime = msgsArr[last].timestamp;
     for (let i = 0; i <= last; i++) {
       let msg = msgsArr[i];
-      let timeStr = new Date(msg.timestamp).toLocaleTimeString();
+      let timeStr = new Date(+msg.timestamp).toLocaleTimeString();
       let $div = $('<div class="message">');
       $('#messages').append(`
         <div class="message">
@@ -47,6 +46,7 @@ $(function () {
   $('button').click(function () {
     let text = $('input').val();
     text && postMsg(text);
+    $('input').val('');
   });
 
   // poll server for new messages
