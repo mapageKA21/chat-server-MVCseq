@@ -2,9 +2,9 @@
 
 const http = require('http');
 const express = require('express');
-
+const config = require('./config.json');
 const router = require('./router.js');
-
+const db = require('./models/index.js');
 const app = express();
 
 app.use(router);
@@ -14,10 +14,15 @@ app.use(function (req, res) {
   res.status(404).sendFile(__dirname + '/static/404.html');
 });
 
-const hostname = 'localhost';
-const port = 3000;
-// const server = http.createServer(app);
+const hostname = config.dev.hostname;
+const port = config.dev.port;
 
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+db.sequelize
+  .sync()
+  .then(function () {
+    app.listen(config.dev.port, function () {
+      console.log('Express server listening on port ' + config.dev.port);
+    });
+  }).catch(function (e) {
+    throw new Error(e);
+  });

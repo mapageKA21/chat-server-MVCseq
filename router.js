@@ -9,4 +9,6 @@ router.get('/messages', messagesCtrl.getLatest);
 
 router.post('/messages', bodyParser.urlencoded({extended: false}), messagesCtrl.post);
 
+router.get('/users', messagesCtrl.getUsers);
+
 module.exports = router;
